@@ -119,7 +119,11 @@ val kafkaDependencies = Seq(
     exclude("org.slf4j", "slf4j-log4j12")
     exclude("log4j", "log4j")
     force(),
-  "io.airlift" % "airline" % airlineVersion
+  "io.airlift" % "airline" % airlineVersion,
+  "io.confluent" % "kafka-avro-serializer" % "2.0.1"
+    exclude("log4j", "log4j")
+    exclude("org.slf4j", "slf4j-log4j12")
+    exclude("com.fasterxml.jackson.core","jackson-databind")
 ) ++ loggingDependencies
 
 val coreTestDependencies = Seq(
@@ -251,6 +255,7 @@ lazy val server = project.in(file("server"))
 lazy val kafka = project.in(file("kafka"))
   .settings(commonSettings: _*)
   .settings(name := "tranquility-kafka")
+  .settings(resolvers += "Confluent Maven Repo" at "http://packages.confluent.io/maven/")
   .settings(libraryDependencies ++= (kafkaDependencies ++ kafkaTestDependencies))
   .settings(publishArtifact in Test := false)
   .dependsOn(core % "test->test;compile->compile")
