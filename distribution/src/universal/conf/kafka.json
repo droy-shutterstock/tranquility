@@ -1,94 +1,159 @@
 {
-   "dataSources" : {
-      "httpd_log_tranquility_III" : {
-         "spec" : {
-            "dataSchema" : {
-               "dataSource" : "httpd_log_tranquility_III",
-               "parser" : {
-                  "type" : "string",
-                  "parseSpec" : {
-                     "timestampSpec" : {
-                        "column" : "timestamp",
-                        "format" : "auto"
-                     },
-                     "dimensionsSpec" : {
-                        "dimensions" : [],
-                        "dimensionExclusions" : [
-                           "timestamp",
-                           "bytes_sent"
-                        ]
-                     },
-                     "format" : "json"
-                  }
-               },
-               "granularitySpec" : {
-                  "type" : "uniform",
-                  "segmentGranularity" : "hour",
-                  "queryGranularity" : "none"
-               },
-               "metricsSpec" : [
-                  {
-                     "type" : "count",
-                     "name" : "count"
-                  },
-                  {
-                     "name" : "total_bytes",
-                     "type" : "doubleSum",
-                     "fieldName" : "bytes_sent"
-                  },
-                  {
-                     "fieldName" : "bytes_sent",
-                     "name" : "min_bytes",
-                     "type" : "doubleMin"
-                  },
-                  {
-                     "type" : "doubleMax",
-                     "name" : "max_bytes",
-                     "fieldName" : "bytes_sent"
-                  },
-                  {
-                     "name" : "total_duration",
-                     "type" : "doubleSum",
-                     "fieldName" : "request_duration"
-                  },
-                  {
-                     "fieldName" : "request_duration",
-                     "name" : "min_duration",
-                     "type" : "doubleMin"
-                  },
-                  {
-                     "type" : "doubleMax",
-                     "name" : "max_duration",
-                     "fieldName" : "request_duration"
-                  }
-               ]
-            },
-            "ioConfig" : {
-               "type" : "realtime"
-            },
-            "tuningConfig" : {
-               "type" : "realtime",
-               "maxRowsInMemory" : "100000",
-               "intermediatePersistPeriod" : "PT10M",
-               "windowPeriod" : "PT10M"
+  "dataSources": [
+    {
+      "spec": {
+        "dataSchema": {
+          "dataSource": "httpd_tranquility_1",
+          "parser": {
+            "type": "string",
+            "parseSpec": {
+              "timestampSpec": {
+                "column": "timestamp",
+                "format": "auto"
+              },
+              "dimensionsSpec": {
+                "dimensions": [],
+                "dimensionExclusions": [
+                  "timestamp",
+                  "bytes_sent",
+                  "request_duration"
+                ]
+              },
+              "format": "json"
             }
-         },
-         "properties" : {
-            "task.partitions" : "1",
-            "task.replicants" : "1",
-            "topicPattern" : "httpd_access_log"
-         }
+          },
+          "granularitySpec": {
+            "type": "uniform",
+            "segmentGranularity": "hour",
+            "queryGranularity": "none"
+          },
+          "metricsSpec": [
+            {
+              "type": "count",
+              "name": "count"
+            },
+            {
+              "name": "total_bytes",
+              "type": "doubleSum",
+              "fieldName": "bytes_sent"
+            },
+            {
+              "fieldName": "bytes_sent",
+              "name": "min_bytes",
+              "type": "doubleMin"
+            },
+            {
+              "type": "doubleMax",
+              "name": "max_bytes",
+              "fieldName": "bytes_sent"
+            },
+            {
+              "name": "total_duration",
+              "type": "doubleSum",
+              "fieldName": "request_duration"
+            },
+            {
+              "fieldName": "request_duration",
+              "name": "min_duration",
+              "type": "doubleMin"
+            },
+            {
+              "type": "doubleMax",
+              "name": "max_duration",
+              "fieldName": "request_duration"
+            }
+          ]
+        },
+        "ioConfig": {
+          "type": "realtime"
+        },
+        "tuningConfig": {
+          "type": "realtime",
+          "maxRowsInMemory": "100000",
+          "intermediatePersistPeriod": "PT10M",
+          "windowPeriod": "PT10M"
+        }
+      },
+      "properties": {
+        "task.partitions": "1",
+        "task.replicants": "1",
+        "topicPattern": "httpd_access_log"
       }
-   },
-   "properties" : {
-      "zookeeper.connect" : "prod-memsqlleaf05.ma01.shuttercorp.net:2181",
-      "zookeeper.timeout" : "PT20S",
-      "druid.selectors.indexing.serviceName" : "druid/overlord",
-      "druid.discovery.curator.path" : "/druid/discovery",
-      "kafka.zookeeper.connect" : "dev-kafkazk01.nj01.shuttercorp.net:2181,dev-kafkazk02.nj01.shuttercorp.net:2181,dev-kafkazk03.nj01.shuttercorp.net:2181",
-      "kafka.group.id" : "tranquility-kafka",
-      "consumer.numThreads" : "2",
-      "commit.periodMillis" : "15000",
-      "reportDropsAsExceptions" : "false"
-   }
+    },
+    {
+      "spec": {
+        "dataSchema": {
+          "dataSource": "nginx_tranquility_1",
+          "parser": {
+            "type": "string",
+            "parseSpec": {
+              "timestampSpec": {
+                "column": "timestamp",
+                "format": "auto"
+              },
+              "dimensionsSpec": {
+                "dimensions": [],
+                "dimensionExclusions": [
+                  "timestamp",
+                  "bytes_sent"
+                ]
+              },
+              "format": "json"
+            }
+          },
+          "granularitySpec": {
+            "type": "uniform",
+            "segmentGranularity": "hour",
+            "queryGranularity": "none"
+          },
+          "metricsSpec": [
+            {
+              "type": "count",
+              "name": "count"
+            },
+            {
+              "name": "total_bytes",
+              "type": "doubleSum",
+              "fieldName": "bytes_sent"
+            },
+            {
+              "fieldName": "bytes_sent",
+              "name": "min_bytes",
+              "type": "doubleMin"
+            },
+            {
+              "type": "doubleMax",
+              "name": "max_bytes",
+              "fieldName": "bytes_sent"
+            }
+          ]
+        },
+        "ioConfig": {
+          "type": "realtime"
+        },
+        "tuningConfig": {
+          "type": "realtime",
+          "maxRowsInMemory": "100000",
+          "intermediatePersistPeriod": "PT10M",
+          "windowPeriod": "PT10M"
+        }
+      },
+      "properties": {
+        "task.partitions": "1",
+        "task.replicants": "1",
+        "topicPattern": "nginx_analytics_access_log"
+      }
+    }
+  ],
+  "properties": {
+    "zookeeper.connect": "prod-memsqlleaf05.ma01.shuttercorp.net:2181",
+    "zookeeper.timeout": "PT20S",
+    "druid.selectors.indexing.serviceName": "druid/overlord",
+    "druid.discovery.curator.path": "/druid/discovery",
+    "kafka.zookeeper.connect": "dev-kafkazk01.nj01.shuttercorp.net:2181,dev-kafkazk02.nj01.shuttercorp.net:2181,dev-kafkazk03.nj01.shuttercorp.net:2181",
+    "kafka.group.id": "tranquility-kafka",
+    "consumer.numThreads": "2",
+    "commit.periodMillis": "15000",
+    "reportDropsAsExceptions": "false"
+  }
 }

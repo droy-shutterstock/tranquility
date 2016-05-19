@@ -223,7 +223,8 @@ public class KafkaConsumer {
                                         sb
                                                 .append(", \"timestamp\": \"")
                                                 .append(dateFormat.format(date)).append("\"}");
-                                        log.info("NEW MESSAGE: " + sb.toString());
+                                        log.info(">>> TOPIC: " + data.topic());
+                                        log.info(">>> MESSAGE: " + sb.toString());
                                         writerController.getWriter(data.topic()).send(sb.toString().getBytes());
                                     } finally {
                                         commitLock.readLock().unlock();
