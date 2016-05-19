@@ -214,7 +214,7 @@ public class KafkaConsumer {
                                         MessageAndMetadata<String, Object> data = kafkaIterator.next();
                                         IndexedRecord value = (IndexedRecord) data.message();
                                         Calendar calendar = Calendar.getInstance();
-                                        calendar.add(Calendar.HOUR_OF_DAY, 4);
+                                        //calendar.add(Calendar.HOUR_OF_DAY, 4);
                                         Date date = calendar.getTime();
 
                                         String json = value.toString();
@@ -246,7 +246,8 @@ public class KafkaConsumer {
 
     private static ConsumerConnector getConsumerConnector(final Properties props) {
         props.setProperty("auto.commit.enable", "false");
-        props.setProperty("schema.registry.url", "http://kafka-schema.dev.shuttercorp.net:8081/");
+        //props.setProperty("schema.registry.url", "http://kafka-schema.dev.shuttercorp.net:8081/");
+        props.setProperty("schema.registry.url", "http://kafka-schema.shuttercorp.net:8081");
 
         final ConsumerConfig config = new ConsumerConfig(props);
         Preconditions.checkState(!config.autoCommitEnable(), "autocommit must be off");

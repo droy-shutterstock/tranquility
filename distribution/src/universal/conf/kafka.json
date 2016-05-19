@@ -3,7 +3,7 @@
     {
       "spec": {
         "dataSchema": {
-          "dataSource": "httpd_tranquility_1",
+          "dataSource": "httpd_prod",
           "parser": {
             "type": "string",
             "parseSpec": {
@@ -83,7 +83,7 @@
     {
       "spec": {
         "dataSchema": {
-          "dataSource": "nginx_tranquility_1",
+          "dataSource": "nginx_prod",
           "parser": {
             "type": "string",
             "parseSpec": {
@@ -150,7 +150,7 @@
     "zookeeper.timeout": "PT20S",
     "druid.selectors.indexing.serviceName": "druid/overlord",
     "druid.discovery.curator.path": "/druid/discovery",
-    "kafka.zookeeper.connect": "dev-kafkazk01.nj01.shuttercorp.net:2181,dev-kafkazk02.nj01.shuttercorp.net:2181,dev-kafkazk03.nj01.shuttercorp.net:2181",
+    "kafka.zookeeper.connect": "prod-kafkazk02.ma01.shuttercorp.net:2181,prod-kafkazk03.ma01.shuttercorp.net:2181,prod-kafkazk04.ma01.shuttercorp.net:2181",
     "kafka.group.id": "tranquility-kafka",
     "consumer.numThreads": "2",
     "commit.periodMillis": "15000",
