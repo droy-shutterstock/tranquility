@@ -83,7 +83,7 @@
     {
       "spec": {
         "dataSchema": {
-          "dataSource": "nginx_prod",
+          "dataSource": "nginx_prod_2",
           "parser": {
             "type": "string",
             "parseSpec": {
@@ -95,7 +95,8 @@
                 "dimensions": [],
                 "dimensionExclusions": [
                   "timestamp",
-                  "bytes_sent"
+                  "bytes_sent",
+                  "response_time"
                 ]
               },
               "format": "json"
@@ -125,6 +126,21 @@
               "type": "doubleMax",
               "name": "max_bytes",
               "fieldName": "bytes_sent"
+            },
+            {
+              "name": "total_response",
+              "type": "doubleSum",
+              "fieldName": "response_time"
+            },
+            {
+              "fieldName": "response_time",
+              "name": "min_response",
+              "type": "doubleMin"
+            },
+            {
+              "type": "doubleMax",
+              "name": "max_response",
+              "fieldName": "response_time"
             }
           ]
         },
