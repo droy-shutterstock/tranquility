@@ -307,7 +307,71 @@
     {
       "spec": {
         "dataSchema": {
-          "dataSource": "shutterstock_image_autocomplete",
+          "dataSource": "shutterstock_image_autocomplete_enhanced",
+          "parser": {
+            "type": "string",
+            "parseSpec": {
+              "timestampSpec": {
+                "column": "timestamp",
+                "format": "auto"
+              },
+              "dimensionsSpec": {
+                "dimensions": [],
+                "dimensionExclusions": [
+                  "timestamp",
+                  "dropdown_position"
+                ]
+              },
+              "format": "json"
+            }
+          },
+          "granularitySpec": {
+            "type": "uniform",
+            "segmentGranularity": "hour",
+            "queryGranularity": "none"
+          },
+          "metricsSpec": [
+            {
+              "type": "count",
+              "name": "count"
+            },
+            {
+              "name": "total_position",
+              "type": "doubleSum",
+              "fieldName": "dropdown_position"
+            },
+            {
+              "fieldName": "dropdown_position",
+              "name": "min_position",
+              "type": "doubleMin"
+            },
+            {
+              "type": "doubleMax",
+              "name": "max_position",
+              "fieldName": "dropdown_position"
+            }
+          ]
+        },
+        "ioConfig": {
+          "type": "realtime"
+        },
+        "tuningConfig": {
+          "type": "realtime",
+          "maxRowsInMemory": "100000",
+          "intermediatePersistPeriod": "PT10M",
+          "windowPeriod": "PT10M"
+        }
+      },
+      "properties": {
+        "task.partitions": "1",
+        "task.replicants": "1",
+        "topicPattern": "shutterstock_image_autocomplete"
+      }
+    },
+    {
+      "spec": {
+        "dataSchema": {
+          "dataSource": "tmp_search_event_test",
           "parser": {
             "type": "string",
             "parseSpec": {
@@ -349,7 +413,7 @@
       "properties": {
         "task.partitions": "1",
         "task.replicants": "1",
-        "topicPattern": "shutterstock_image_autocomplete"
+        "topicPattern": "tmp_search_event_test"
       }
     }
   ],

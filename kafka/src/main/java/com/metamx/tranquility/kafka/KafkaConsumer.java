@@ -32,6 +32,7 @@ import kafka.javaapi.consumer.ConsumerConnector;
 import kafka.message.MessageAndMetadata;
 import kafka.serializer.StringDecoder;
 import kafka.utils.VerifiableProperties;
+import org.apache.avro.generic.GenericData;
 import org.apache.avro.generic.IndexedRecord;
 
 import java.text.SimpleDateFormat;
@@ -223,6 +224,22 @@ public class KafkaConsumer {
                                         sb
                                                 .append(", \"timestamp\": \"")
                                                 .append(dateFormat.format(date)).append("\"}");
+                                        if(data.topic().equalsIgnoreCase("shutterstock_image_autocomplete")){
+                                            int index = value.getSchema().getField("dropdown_positions").pos();
+                                            GenericData.Array position = (GenericData.Array)value.get(index);
+                                            String intPos = "0";
+                                            try {
+                                                intPos = position.get(0).toString();
+                                            }catch(Throwable t){
+
+                                            }
+                                            sb.deleteCharAt(sb.length()-1);
+                                            sb
+                                                    .append(", \"dropdown_position\": ")
+                                                    .append(intPos)
+                                                    .append("}");
+
+                                        }
                                         log.debug(">>> TOPIC: " + data.topic());
                                         log.debug(">>> MESSAGE: " + sb.toString());
                                         writerController.getWriter(data.topic()).send(sb.toString().getBytes());
